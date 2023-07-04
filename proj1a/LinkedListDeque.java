@@ -4,14 +4,14 @@ public class LinkedListDeque<T> {
         private ListNode<T> next;
         private ListNode<T> prev;
 
-        public ListNode(T _data, ListNode<T> _next, ListNode _prev) {
-            data = _data;
-            next = _next;
-            prev = _prev;
+        public ListNode(T d, ListNode<T> n, ListNode p) {
+            data = d;
+            next = n;
+            prev = p;
         }
 
-        public ListNode(T _data) {
-            data = _data;
+        public ListNode(T d) {
+            data = d;
         }
 
         public ListNode() {
@@ -86,7 +86,9 @@ public class LinkedListDeque<T> {
     }
 
     public void printDeque() {
-        if (size() == 0) System.out.println();
+        if (size() == 0) {
+            System.out.println();
+        }
         else {
             ListNode<T> p = head.getNext();
             System.out.print(p.getData());
@@ -99,31 +101,43 @@ public class LinkedListDeque<T> {
     }
 
     public T removeFirst() {
-        if (size == 0) return null;
+        if (size == 0) {
+            return null;
+        }
         size--;
         return head.remove();
     }
 
     public T removeLast() {
-        if (size == 0) return null;
+        if (size == 0) {
+            return null;
+        }
         size--;
         return tail.prev.remove();
     }
 
     public T get(int index) {
-        if (index >= size) return null;
+        if (index >= size) {
+            return null;
+        }
         ListNode<T> p = head;
-        for (int i = 0; i < index; i++) p = p.getNext();
+        for (int i = 0; i < index; i++) {
+            p = p.getNext();
+        }
         return p.getNext().getData();
     }
 
     public T getRecursive(int index) {
-        if (index >= size) return null;
+        if (index >= size) {
+            return null;
+        }
         return getRecursive(head.getNext(), index);
     }
 
     private T getRecursive(ListNode<T> head, int index) {
-        if (index == 0) return head.getData();
+        if (index == 0) {
+            return head.getData();
+        }
         return getRecursive(head.getNext(), index - 1);
     }
 }

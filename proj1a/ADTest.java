@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 
 public class ADTest {
     @Test
-    public void addTest() {
+    public void TestOne() {
         ArrayDeque<Object> deque = new ArrayDeque<>();
         assertTrue(deque.isEmpty());
         Object[] objs = new Object[10];
@@ -18,6 +18,26 @@ public class ADTest {
         deque.addLast(objs[6]);
         deque.addLast(objs[7]);
         assertEquals(6, deque.size());
+        deque.addLast(objs[9]);
+    }
+
+    @Test
+    public void TestTwo() {
+        ArrayDeque<Object> deque = new ArrayDeque<>();
+        assertTrue(deque.isEmpty());
+        Object[] objs = new Object[10];
+        for (int i = 0; i < 10; i++) {
+            objs[i] = new Object();
+        }
+        deque.addLast(objs[1]);
+        deque.addLast(objs[2]);
+        assertEquals(objs[2], deque.removeLast());
+        deque.addLast(objs[3]);
+        deque.addLast(objs[4]);
+        deque.addLast(objs[5]);
+        deque.addLast(objs[6]);
+        assertFalse(deque.isEmpty());
+        deque.addLast(objs[8]);
         deque.addLast(objs[9]);
     }
 }

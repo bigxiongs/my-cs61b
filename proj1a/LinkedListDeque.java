@@ -88,11 +88,10 @@ public class LinkedListDeque<T> {
     public void printDeque() {
         if (size() == 0) {
             System.out.println();
-        }
-        else {
+        } else {
             ListNode<T> p = head.getNext();
             System.out.print(p.getData());
-            while(p.getNext() != tail) {
+            while (p.getNext() != tail) {
                 p = p.getNext();
                 System.out.print(" " + p.getData());
             }
@@ -134,10 +133,10 @@ public class LinkedListDeque<T> {
         return getRecursive(head.getNext(), index);
     }
 
-    private T getRecursive(ListNode<T> head, int index) {
+    private T getRecursive(ListNode<T> root, int index) {
         if (index == 0) {
-            return head.getData();
+            return root.getData();
         }
-        return getRecursive(head.getNext(), index - 1);
+        return getRecursive(root.getNext(), index - 1);
     }
 }

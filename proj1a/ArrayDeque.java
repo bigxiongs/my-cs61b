@@ -71,7 +71,9 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
-        if (size != 0) System.out.print(get(0));
+        if (size != 0) {
+            System.out.print(get(0));
+        }
         for (int i = 1; i < size; i++) {
             System.out.print(" " + get(i));
         }

@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 
 public class ADTest {
     @Test
-    public void TestOne() {
+    public void testOne() {
         ArrayDeque<Object> deque = new ArrayDeque<>();
         assertTrue(deque.isEmpty());
         Object[] objs = new Object[10];
@@ -22,7 +22,7 @@ public class ADTest {
     }
 
     @Test
-    public void TestTwo() {
+    public void testTwo() {
         ArrayDeque<Object> deque = new ArrayDeque<>();
         assertTrue(deque.isEmpty());
         Object[] objs = new Object[10];

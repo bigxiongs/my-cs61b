@@ -34,13 +34,13 @@ public class ArrayDeque<T> {
     private void resize(int cap) {
         T[] tmp = (T[]) new Object[cap];
         int i = head;
-        capacity = cap;
-        head = capacity - 1;
-        tail = capacity - 1;
+        head = cap - 1;
+        tail = size - 1;
         for (int cnt = 0; cnt < size; cnt++) {
             i = forward(i);
             tmp[cnt] = items[i];
         }
+        capacity = cap;
         items = tmp;
     }
 

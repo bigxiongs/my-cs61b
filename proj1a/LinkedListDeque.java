@@ -64,7 +64,7 @@ public class LinkedListDeque<T> {
         head = new ListNode<>();
         tail = new ListNode<>();
         head.next = tail;
-        tail.next = head;
+        tail.prev = head;
     }
 
     public void addFirst(T item) {
@@ -113,7 +113,7 @@ public class LinkedListDeque<T> {
             return null;
         }
         size--;
-        return tail.prev.remove();
+        return tail.prev.prev.remove();
     }
 
     public T get(int index) {

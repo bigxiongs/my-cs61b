@@ -41,14 +41,14 @@ public class LinkedListDeque<T> {
             prev = newPrev;
         }
 
-        public void insert(ListNode<T> node) {
+        public void insertNext(ListNode<T> node) {
             node.next = next;
             node.prev = this;
             next.prev = node;
             next = node;
         }
 
-        public T remove() {
+        public T removeNext() {
             ListNode<T> p = next;
             next = p.next;
             p.next.prev = this;
@@ -68,12 +68,12 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T item) {
-        head.insert(new ListNode<T>(item));
+        head.insertNext(new ListNode<T>(item));
         size++;
     }
 
     public void addLast(T item) {
-        tail.prev.insert(new ListNode<T>(item));
+        tail.prev.insertNext(new ListNode<T>(item));
         size++;
     }
 
@@ -104,7 +104,7 @@ public class LinkedListDeque<T> {
             return null;
         }
         size--;
-        return head.remove();
+        return head.removeNext();
     }
 
     public T removeLast() {
@@ -112,7 +112,7 @@ public class LinkedListDeque<T> {
             return null;
         }
         size--;
-        return tail.prev.prev.remove();
+        return tail.prev.prev.removeNext();
     }
 
     public T get(int index) {

@@ -18,9 +18,6 @@ public class GuitarString {
 
     /* Pluck the guitar string by replacing the buffer with white noise. */
     public void pluck() {
-        while (!buffer.isEmpty()) {
-            buffer.dequeue();
-        }
         while (!buffer.isFull()) {
             buffer.enqueue(Math.random() - 0.5);
         }
@@ -31,12 +28,15 @@ public class GuitarString {
      */
     public void tic() {
         double sample = buffer.dequeue();
-        sample = (sample + buffer.peek()) / 2 * DECAY;
+        sample = (sample + buffer.peek()) * 0.5 * DECAY;
         buffer.enqueue(sample);
     }
 
     /* Return the double at the front of the buffer. */
     public double sample() {
+        if (buffer.isEmpty()) {
+            return 0;
+        }
         return buffer.peek();
     }
 }

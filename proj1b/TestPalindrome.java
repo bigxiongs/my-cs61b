@@ -20,9 +20,12 @@ public class TestPalindrome {
     public void testIsPalindrome() {
         assertTrue(palindrome.isPalindrome("noon"));
         assertFalse(palindrome.isPalindrome("noon", new OffByOne()));
+        assertTrue(palindrome.isPalindrome("aba"));
+        assertFalse(palindrome.isPalindrome("aba", new OffByOne()));
         assertFalse(palindrome.isPalindrome("car"));
         assertFalse(palindrome.isPalindrome("car", new OffByOne()));
         assertFalse(palindrome.isPalindrome("abb"));
         assertTrue(palindrome.isPalindrome("abb", new OffByOne()));
+        assertTrue(palindrome.isPalindrome("&%", new OffByOne()));
     }
 }

@@ -2,19 +2,21 @@ package byog.Core;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
-import edu.princeton.cs.algs4.In;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Path;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class Game {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
+
     public static final String SAVE_FILE = "./save.txt";
 
     /**
@@ -40,84 +42,97 @@ public class Game {
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
 
-        input = input.toLowerCase();
-        Character mainOption = input.charAt(0);
-        switch (mainOption) {
-            case 'n': {
-                return newGame(input.substring(1));
-            }
-            case 'l': {
-                return loadGame(input.substring(1));
-            }
-            case 'q': {
-                return null;
-            }
-            default: {
-                throw new IllegalArgumentException("Main Menu option false, "
-                        + mainOption + " given");
-            }
+        World world = new World(WIDTH, HEIGHT);
+        List<Consumer<World>> commands = Parser.parse(input.toUpperCase());
+        for (Consumer<World> c : commands) {
+            c.accept(world);
         }
+        return world.getState();
     }
+}
 
-    /**
-     * Method used for parse user input seed, generate a world with it. Call
-     * play() on the remaining input.
-     * @param input user input, beginning with a seed
-     * @return the worldState after operate on it
-     */
-    private TETile[][] newGame(String input) {
-
-        // Parse Seed
-        int del = input.indexOf('s');
-        String seedString = input.substring(0, del);
-        String operation = input.substring((del + 1));
-        long seed = Long.parseLong(seedString);
-
-        // Generate a random world with the given seed
-        World world = World.generateWorld(seed);
-
-        // Play game
-        play(world, operation);
-        return world.worldState();
-    }
-
-    /**
-     * Method used to retrieve the saved file, load that to generate a world,
-     * and call play() on the give input.
-     * @param input user input of operation
-     * @return the worldState after play with it
-     */
-    private TETile[][] loadGame(String input) {
+class Parser {
+    private static final Consumer<World> MOVE_LEFT = (world) -> world.movePlayer(DIRECTION.WEST);
+    private static final Consumer<World> MOVE_RIGHT = (world) -> world.movePlayer(DIRECTION.EAST);
+    private static final Consumer<World> MOVE_UP = (world) -> world.movePlayer(DIRECTION.NORTH);
+    private static final Consumer<World> MOVE_DOWN = (world) -> world.movePlayer(DIRECTION.SOUTH);
+    private static final Consumer<World> SAVE = (world) -> {
+        File f = new File(Game.SAVE_FILE);
         try {
-            Scanner in = new Scanner(Path.of(SAVE_FILE));
-            String save = in.nextLine();
-            return newGame(save + input);
+            f.createNewFile();
+            PrintWriter out = new PrintWriter(f);
+            out.print(world.save());
+            out.close();
         } catch (IOException e) {
-            throw new RuntimeException("Can not load game, no save file found");
+            throw new RuntimeException(e);
         }
-    }
-
-    public void play(World world, String s) {
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == ':') {
-                i++;
-                if (s.charAt(i) == 'q') {
-                    saveState(world);
-                    return;
-                } else {
-                    throw new IllegalArgumentException("quit on save fail.");
-                }
-            } else {
-//                world.movePlayer(s.charAt(i));
-            }
-        }
-    }
-
-    private void saveState(World world) {
+    };
+    private static final Consumer<World> LOAD = (world) -> {
+        File f = new File(Game.SAVE_FILE);
         try {
-            PrintWriter out = new PrintWriter(SAVE_FILE);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("Save file not found");
+            if (!f.exists()) {
+                throw new RuntimeException();
+            }
+            Scanner scn = new Scanner(f);
+            String s = scn.nextLine();
+            scn.close();
+            List<Consumer<World>> cmds = parse(s);
+            for (var cmd: cmds) {
+                cmd.accept(world);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    };
+
+    /**
+     * Parse the input and return a list of consumers which take in a world
+     * and apply that consumer/command to the world.
+     * There are 4 kinds of commands:
+     * N###S   : generate a random world with `###` as the seed
+     * L       : load the last saved world
+     * A/S/D/W : move the player in the world
+     * :Q      : save the state of the world and quit
+     * @return a list of consumers
+     */
+    public static List<Consumer<World>> parse(String input) {
+        List<Consumer<World>> commands = new LinkedList<>();
+        switch (input.charAt(0)) {
+            case 'N' -> {
+                int sPos = input.indexOf('S');
+                if (sPos < 0) throw new RuntimeException();
+                long seed = Long.parseLong(input.substring(1, sPos));
+                Consumer<World> command = (world) -> world.generate(seed);
+                commands.add(command);
+                parse(input.substring(sPos + 1), commands);
+            }
+            case 'L' -> {
+                commands.add(LOAD);
+                parse(input.substring(1), commands);
+            }
+            case 'Q' -> {
+            }
+            default -> throw new RuntimeException();
+        }
+        return commands;
+    }
+
+    private static void parse(String input, List<Consumer<World>> commands) {
+        for (int i = 0; i < input.length(); i++) {
+            switch (input.charAt(i)) {
+                case 'A' -> commands.add(MOVE_LEFT);
+                case 'S' -> commands.add(MOVE_DOWN);
+                case 'D' -> commands.add(MOVE_RIGHT);
+                case 'W' -> commands.add(MOVE_UP);
+                case ':' -> {
+                    if (i + 1 < input.length() && input.charAt(i + 1) == 'Q') {
+                        commands.add(SAVE);
+                        return;
+                    } else {
+                        throw new RuntimeException();
+                    }
+                }
+            }
         }
     }
 }

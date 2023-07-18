@@ -1,16 +1,21 @@
 package byog.Core;
 
 public enum DIRECTION {
-    NORTH, SOUTH, WEST, EAST, NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST;
+    NORTH("N", "W"), SOUTH("S", "S"),
+    WEST("W", "A"), EAST("E", "D"),
+    NORTH_EAST("NE"), NORTH_WEST("NW"),
+    SOUTH_EAST("SE"), SOUTH_WEST("SW");
 
-    public static DIRECTION parseDirection(char c) {
-        switch (c) {
-            case 'a': return WEST;
-            case 's': return SOUTH;
-            case 'w': return NORTH;
-            case 'd': return EAST;
-            default: throw new IllegalArgumentException("false direction");
-        }
+    public final String abbr;
+    public final String key;
+
+    DIRECTION(String abbr, String key) {
+        this.abbr = abbr;
+        this.key = key;
+    }
+
+    DIRECTION(String abbr) {
+        this.abbr  = abbr;
+        this.key = "";
     }
 }
-

@@ -52,11 +52,11 @@ public class Game {
 }
 
 class Parser {
-    private static final Consumer<World> MOVE_LEFT = (world) -> world.movePlayer(DIRECTION.WEST);
-    private static final Consumer<World> MOVE_RIGHT = (world) -> world.movePlayer(DIRECTION.EAST);
-    private static final Consumer<World> MOVE_UP = (world) -> world.movePlayer(DIRECTION.NORTH);
-    private static final Consumer<World> MOVE_DOWN = (world) -> world.movePlayer(DIRECTION.SOUTH);
-    private static final Consumer<World> SAVE = (world) -> {
+    private static final Consumer<World> MOVE_LEFT = world -> world.movePlayer(DIRECTION.WEST);
+    private static final Consumer<World> MOVE_RIGHT = world -> world.movePlayer(DIRECTION.EAST);
+    private static final Consumer<World> MOVE_UP = world -> world.movePlayer(DIRECTION.NORTH);
+    private static final Consumer<World> MOVE_DOWN = world -> world.movePlayer(DIRECTION.SOUTH);
+    private static final Consumer<World> SAVE = world -> {
         File f = new File(Game.SAVE_FILE);
         try {
             f.createNewFile();
@@ -67,7 +67,7 @@ class Parser {
             throw new RuntimeException(e);
         }
     };
-    private static final Consumer<World> LOAD = (world) -> {
+    private static final Consumer<World> LOAD = world -> {
         File f = new File(Game.SAVE_FILE);
         try {
             if (!f.exists()) {
@@ -98,21 +98,24 @@ class Parser {
     public static List<Consumer<World>> parse(String input) {
         List<Consumer<World>> commands = new LinkedList<>();
         switch (input.charAt(0)) {
-            case 'N' -> {
+            case 'N': {
                 int sPos = input.indexOf('S');
                 if (sPos < 0) throw new RuntimeException();
                 long seed = Long.parseLong(input.substring(1, sPos));
                 Consumer<World> command = (world) -> world.generate(seed);
                 commands.add(command);
                 parse(input.substring(sPos + 1), commands);
+                break;
             }
-            case 'L' -> {
+            case 'L': {
                 commands.add(LOAD);
                 parse(input.substring(1), commands);
+                break;
             }
-            case 'Q' -> {
+            case 'Q': {
+                break;
             }
-            default -> throw new RuntimeException();
+            default: throw new RuntimeException();
         }
         return commands;
     }
@@ -120,18 +123,31 @@ class Parser {
     private static void parse(String input, List<Consumer<World>> commands) {
         for (int i = 0; i < input.length(); i++) {
             switch (input.charAt(i)) {
-                case 'A' -> commands.add(MOVE_LEFT);
-                case 'S' -> commands.add(MOVE_DOWN);
-                case 'D' -> commands.add(MOVE_RIGHT);
-                case 'W' -> commands.add(MOVE_UP);
-                case ':' -> {
+                case 'A': {
+                    commands.add(MOVE_LEFT);
+                    break;
+                }
+                case 'S': {
+                    commands.add(MOVE_DOWN);
+                    break;
+                }
+                case 'D': {
+                    commands.add(MOVE_RIGHT);
+                    break;
+                }
+                case 'W': {
+                    commands.add(MOVE_UP);
+                    break;
+                }
+                case ':': {
                     if (i + 1 < input.length() && input.charAt(i + 1) == 'Q') {
                         commands.add(SAVE);
-                        return;
+                        break;
                     } else {
                         throw new RuntimeException();
                     }
                 }
+                default: throw new RuntimeException();
             }
         }
     }

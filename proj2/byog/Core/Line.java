@@ -51,10 +51,10 @@ public class Line implements Face {
         Area outline = new Area();
         Set<Coordinate> set = toCoordinateSet();
         for (Coordinate c: set) {
-            Coordinate l = new Coordinate(c.x - 1, c.y);
-            Coordinate r = new Coordinate(c.x + 1, c.y);
-            Coordinate d = new Coordinate(c.x, c.y - 1);
-            Coordinate u = new Coordinate(c.x, c.y + 1);
+            Coordinate l = c.towards(DIRECTION.WEST);
+            Coordinate r = c.towards(DIRECTION.EAST);
+            Coordinate d = c.towards(DIRECTION.SOUTH);
+            Coordinate u = c.towards(DIRECTION.NORTH);
             if (!set.contains(l)) {
                 outline.add(l);
             }
@@ -82,5 +82,10 @@ public class Line implements Face {
         } else {
             return points.equals(((Line) obj).points);
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(points.toArray());
     }
 }

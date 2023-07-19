@@ -97,7 +97,7 @@ class WorldGenerator {
         Set<Rectangle> unconnected = rooms;
         Set<Rectangle> connected = new HashSet<>();
         PriorityQueue<Connection[]> lineCandidates = new PriorityQueue<>(rooms.size(),
-                Comparator.comparingInt(c -> c[0].line.size()));
+                Comparator.comparingInt(c -> c[0].getLine().size()));
         Rectangle room = unconnected.toArray(new Rectangle[0])[0];
         unconnected.remove(room);
         connected.add(room);
@@ -105,12 +105,12 @@ class WorldGenerator {
             lineCandidates.addAll(getConnections(room, unconnected));
             Connection[] candidates = lineCandidates.poll();
             Connection candidate = candidates[random.nextInt(candidates.length)];
-            hallways.add(candidate.line);
-            room = candidate.to;
+            hallways.add(candidate.getLine());
+            room = candidate.getTo();
             connected.add(room);
             unconnected.remove(room);
             Rectangle finalRoom = room;
-            lineCandidates.removeIf(cdd -> cdd[0].to == finalRoom);
+            lineCandidates.removeIf(cdd -> cdd[0].getTo() == finalRoom);
         }
         return hallways;
     }
@@ -133,7 +133,7 @@ class WorldGenerator {
     }
 
     private boolean accessible(Coordinate c) {
-        TETile t = state[c.x][c.y];
+        TETile t = state[c.getX()][c.getY()];
         if (t == Tileset.FLOOR) {
             return true;
         } else if (t == Tileset.FLOWER) {
@@ -146,7 +146,7 @@ class WorldGenerator {
     }
 
     public TETile[][] getState() {
-        state[player.x][player.y] = Tileset.PLAYER;
+        state[player.getX()][player.getY()] = Tileset.PLAYER;
         return state;
     }
 
@@ -154,7 +154,7 @@ class WorldGenerator {
         for (Face face: faces) {
             Set<Coordinate> set = face.toCoordinateSet();
             for (Coordinate c: set) {
-                state[c.x][c.y] = t;
+                state[c.getX()][c.getY()] = t;
             }
         }
     }
@@ -163,8 +163,8 @@ class WorldGenerator {
         for (Face face: faces) {
             Set<Coordinate> set = face.toCoordinateSet();
             for (Coordinate c: set) {
-                if (state[c.x][c.y] == Tileset.NOTHING) {
-                    state[c.x][c.y] = t;
+                if (state[c.getX()][c.getY()] == Tileset.NOTHING) {
+                    state[c.getX()][c.getY()] = t;
                 }
             }
         }

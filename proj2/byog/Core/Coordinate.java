@@ -5,8 +5,16 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Coordinate implements Face {
-    public final int x;
-    public final int y;
+    private final int x;
+    private final int y;
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     public Coordinate(int x, int y) {
         this.x = x;
@@ -49,11 +57,11 @@ public class Coordinate implements Face {
     public Coordinate towards(DIRECTION d) {
         Coordinate c;
         switch (d) {
-            case NORTH -> c = new Coordinate(x, y + 1);
-            case SOUTH -> c = new Coordinate(x, y - 1);
-            case WEST -> c = new Coordinate(x - 1, y);
-            case EAST -> c = new Coordinate(x + 1, y);
-            default -> throw new RuntimeException();
+            case NORTH: {c = new Coordinate(x, y + 1); break;}
+            case SOUTH: {c = new Coordinate(x, y - 1); break;}
+            case WEST: {c = new Coordinate(x - 1, y); break;}
+            case EAST: {c = new Coordinate(x + 1, y); break;}
+            default: throw new RuntimeException();
         }
         return c;
     }

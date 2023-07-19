@@ -48,9 +48,9 @@ public class Rectangle implements Face {
     }
 
     public Rectangle moveTo(Coordinate c) {
-        int dx = c.x - left;
-        int dy = c.y - down;
-        return new Rectangle(c.x, c.y, right + dx, up + dy);
+        int dx = c.getX() - left;
+        int dy = c.getY() - down;
+        return new Rectangle(c.getX(), c.getY(), right + dx, up + dy);
     }
 
     @Override

@@ -142,7 +142,7 @@ class Parser {
                 case ':': {
                     if (i + 1 < input.length() && input.charAt(i + 1) == 'Q') {
                         commands.add(SAVE);
-                        break;
+                        return;
                     } else {
                         throw new RuntimeException();
                     }

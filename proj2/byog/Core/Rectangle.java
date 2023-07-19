@@ -4,10 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Rectangle implements Face {
-    public final int left;
-    public final int right;
-    public final int down;
-    public final int up;
+    private final int left;
+    private final int right;
+    private final int down;
+    private final int up;
 
     public Rectangle(int x1, int y1, int x2, int y2) {
         left = x1;
@@ -20,12 +20,28 @@ public class Rectangle implements Face {
         this(0, 0, x, y);
     }
 
-    public static Rectangle[] of (int... xAndY) {
+    public static Rectangle[] of(int... xAndY) {
         Rectangle[] arr = new Rectangle[xAndY.length / 2];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = new Rectangle(xAndY[i * 2], xAndY[i * 2 + 1]);
         }
         return arr;
+    }
+
+    public int getLeft() {
+        return left;
+    }
+
+    public int getRight() {
+        return right;
+    }
+
+    public int getDown() {
+        return down;
+    }
+
+    public int getUp() {
+        return up;
     }
 
     @Override

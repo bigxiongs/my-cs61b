@@ -6,8 +6,8 @@ public enum DIRECTION {
     NORTH_EAST("NE"), NORTH_WEST("NW"),
     SOUTH_EAST("SE"), SOUTH_WEST("SW");
 
-    public final String abbr;
-    public final String key;
+    private final String abbr;
+    private final String key;
 
     DIRECTION(String abbr, String key) {
         this.abbr = abbr;
@@ -17,5 +17,9 @@ public enum DIRECTION {
     DIRECTION(String abbr) {
         this.abbr  = abbr;
         this.key = "";
+    }
+
+    public String getAbbr() {
+        return abbr;
     }
 }

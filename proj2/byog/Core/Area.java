@@ -6,10 +6,10 @@ import java.util.Set;
 public class Area implements Face {
     private final Set<Coordinate> points = new HashSet<>();
 
-    public Area() {}
+    public Area() { }
 
     public Area(Face... faces) {
-        for(Face face: faces) {
+        for (Face face: faces) {
             points.addAll(face.toCoordinateSet());
         }
     }

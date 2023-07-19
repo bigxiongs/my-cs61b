@@ -1,6 +1,12 @@
 package byog.Core;
 
-import java.util.*;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.Collections;
 
 public class Line implements Face {
     private final List<Coordinate> points = new LinkedList<>();

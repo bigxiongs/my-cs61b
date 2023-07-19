@@ -3,7 +3,11 @@ package byog.Core;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
-import java.util.*;
+import java.util.Set;
+import java.util.Random;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.PriorityQueue;
 
 public class World {
     private final StringBuilder serial;
@@ -26,7 +30,7 @@ public class World {
 
     public void movePlayer(DIRECTION dir) {
         if (generator.movePlayer(dir)) {
-            serial.append(dir.abbr);
+            serial.append(dir.getAbbr());
         }
     }
 
@@ -172,8 +176,8 @@ class WorldGenerator {
 
     private void fill(TETile t, Rectangle... rectangles) {
         for (Rectangle rectangle: rectangles) {
-            for (int i = rectangle.left; i <= rectangle.right; i++) {
-                for (int j = rectangle.down; j <= rectangle.up; j++) {
+            for (int i = rectangle.getLeft(); i <= rectangle.getRight(); i++) {
+                for (int j = rectangle.getDown(); j <= rectangle.getUp(); j++) {
                     state[i][j] = t;
                 }
             }

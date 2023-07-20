@@ -53,8 +53,8 @@ public class Line implements Face {
         return size();
     }
 
-    public Area outline() {
-        Area outline = new Area();
+    public Set<Coordinate> outline() {
+        Set<Coordinate> outline = new HashSet<>();
         Set<Coordinate> set = toCoordinateSet();
         for (Coordinate c: set) {
             Coordinate l = c.towards(DIRECTION.WEST);

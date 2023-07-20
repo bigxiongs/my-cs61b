@@ -1,10 +1,11 @@
 package byog.Core;
 
+import byog.TileEngine.TETile;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.HashSet;
-import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 
 public class WorldTest {
@@ -43,5 +44,15 @@ public class WorldTest {
         Connection[] candidates = from.connect(to);
         Connection expect = new Connection(from, to, Line.of(59, 17, 59, 19));
         assertEquals(expect, candidates[0]);
+    }
+
+    @Test
+    public void similarWorldTest() {
+        Game one = new Game();
+        Game two = new Game();
+        String input = "n455857754086099036s";
+        TETile[][] stateOne = one.playWithInputString(input);
+        TETile[][] stateTwo = two.playWithInputString(input);
+        assertEquals(TETile.toString(stateOne), TETile.toString(stateTwo));
     }
 }

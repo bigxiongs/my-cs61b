@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Coordinate implements Face {
+public class Coordinate {
     private final int x;
     private final int y;
 
@@ -94,23 +94,6 @@ public class Coordinate implements Face {
 
     public boolean eastOf(Coordinate c) {
         return x > c.x && y == c.y;
-    }
-
-    @Override
-    public boolean intersects(Face face) {
-        return face.toCoordinateSet().contains(this);
-    }
-
-    @Override
-    public int size() {
-        return 1;
-    }
-
-    @Override
-    public Set<Coordinate> toCoordinateSet() {
-        Set<Coordinate> set = new HashSet<>();
-        set.add(this);
-        return set;
     }
 }
 

@@ -3,12 +3,7 @@ package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.function.Consumer;
 
 public class Game {

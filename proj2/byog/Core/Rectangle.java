@@ -1,6 +1,7 @@
 package byog.Core;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Rectangle implements Face {
@@ -203,9 +204,14 @@ public class Rectangle implements Face {
             return false;
         } else {
             Rectangle rectangle = (Rectangle) obj;
-            return left == rectangle.left && right == rectangle.right &&
-                    down == rectangle.down && up == rectangle.up;
+            return left == rectangle.left && right == rectangle.right
+                    && down == rectangle.down && up == rectangle.up;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(left, right, down, up);
     }
 
     @Override

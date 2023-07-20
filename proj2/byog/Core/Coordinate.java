@@ -57,11 +57,25 @@ public class Coordinate implements Face {
     public Coordinate towards(DIRECTION d) {
         Coordinate c;
         switch (d) {
-            case NORTH: {c = new Coordinate(x, y + 1); break;}
-            case SOUTH: {c = new Coordinate(x, y - 1); break;}
-            case WEST: {c = new Coordinate(x - 1, y); break;}
-            case EAST: {c = new Coordinate(x + 1, y); break;}
-            default: throw new RuntimeException();
+            case NORTH: {
+                c = new Coordinate(x, y + 1);
+                break;
+            }
+            case SOUTH: {
+                c = new Coordinate(x, y - 1);
+                break;
+            }
+            case WEST: {
+                c = new Coordinate(x - 1, y);
+                break;
+            }
+            case EAST: {
+                c = new Coordinate(x + 1, y);
+                break;
+            }
+            default: {
+                throw new RuntimeException();
+            }
         }
         return c;
     }

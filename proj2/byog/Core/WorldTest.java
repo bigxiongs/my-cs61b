@@ -5,7 +5,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 public class WorldTest {

@@ -38,10 +38,6 @@ public class Game {
      * @return the 2D TETile[][] representing the state of the world
      */
     public TETile[][] playWithInputString(String input) {
-        // TODO: Fill out this method to run the game using the input passed in,
-        // and return a 2D tile representation of the world that would have been
-        // drawn if the same inputs had been given to playWithKeyboard().
-
         World world = new World(WIDTH, HEIGHT);
         List<Consumer<World>> commands = Parser.parse(input.toUpperCase());
         for (Consumer<World> c : commands) {
@@ -100,7 +96,9 @@ class Parser {
         switch (input.charAt(0)) {
             case 'N': {
                 int sPos = input.indexOf('S');
-                if (sPos < 0) throw new RuntimeException();
+                if (sPos < 0) {
+                    throw new RuntimeException();
+                }
                 long seed = Long.parseLong(input.substring(1, sPos));
                 Consumer<World> command = (world) -> world.generate(seed);
                 commands.add(command);

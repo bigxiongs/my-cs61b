@@ -1,8 +1,6 @@
 package byog.Core;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 public class Coordinate {
     private final int x;

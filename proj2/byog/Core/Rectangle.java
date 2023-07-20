@@ -98,13 +98,13 @@ public class Rectangle implements Face {
         if (intersects(rec)) {
             lines = new Line[0];
         } else if (northOf(rec)) {
-           int l = Math.max(left, rec.left);
-           int r = Math.min(right, rec.right);
-           lines = new Line[r - l + 1];
-           for (int i = l; i <= r; i++) {
+            int l = Math.max(left, rec.left);
+            int r = Math.min(right, rec.right);
+            lines = new Line[r - l + 1];
+            for (int i = l; i <= r; i++) {
                lines[i - l] = new Line(new Coordinate(i, rec.up),
                        new Coordinate(i, down));
-           }
+            }
         } else if (southOf(rec)) {
             int l = Math.max(left, rec.left);
             int r = Math.min(right, rec.right);

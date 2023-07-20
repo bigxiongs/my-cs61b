@@ -53,7 +53,8 @@ public class WorldGenerator {
         List<Rectangle> rooms = new LinkedList<>();
         for (int i = 0; i < MAX_ROOM_NUM; i++) {
             Rectangle room = ROOM_PATTERN[random.nextInt(ROOM_PATTERN.length)];
-            Rectangle available = new Rectangle(1, 1, width - room.width() - 1, height - room.height() - 1);
+            Rectangle available = new Rectangle(1, 1,
+                    width - room.width() - 1, height - room.height() - 1);
             room = room.moveTo(available.get(random.nextInt(available.size())));
             boolean valid = true;
             for (Rectangle rectangle: rooms) {
@@ -114,10 +115,8 @@ public class WorldGenerator {
             return true;
         } else if (t == Tileset.FLOWER) {
             return true;
-        } else if (t == Tileset.UNLOCKED_DOOR) {
-            return true;
         } else {
-            return false;
+            return t == Tileset.UNLOCKED_DOOR;
         }
     }
 
